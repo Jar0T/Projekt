@@ -1,0 +1,6 @@
+﻿  App.cpp
+e:\polsl\ja\projektja\app\app.cpp(1): warning C4067: nieoczekiwane tokeny występujące po dyrektywie preprocesora - oczekiwano nowego wiersza
+  Trwa generowanie kodu
+  All 11 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Zakończono generowanie kodu
+  App.vcxproj -> E:\polsl\JA\ProjektJA\x64\Release\App.exe

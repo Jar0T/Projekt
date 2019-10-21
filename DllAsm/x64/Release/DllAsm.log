@@ -1,0 +1,3 @@
+﻿  Assembling DllAsm.asm...
+  dllmain.cpp
+e:\polsl\ja\projektja\dllasm\dllmain.cpp(19): fatal error C1010: Nieoczekiwany koniec pliku podczas wyszukiwania prekompilowanego pliku nagłówkowego. Czy zapomniano dodać „#include "stdafx.h"” do źródła?
