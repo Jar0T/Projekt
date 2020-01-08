@@ -1,0 +1,4 @@
+﻿  App.cpp
+e:\polsl\ja\projektja\app\app.cpp(58): warning C4018: ">": niezgodność typu ze znakiem/bez znaku
+e:\polsl\ja\projektja\app\app.cpp(65): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  App.vcxproj -> E:\polsl\JA\ProjektJA\x64\Debug\App.exe

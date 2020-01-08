@@ -1,6 +1,9 @@
 ﻿  App.cpp
-e:\polsl\ja\projektja\app\app.cpp(1): warning C4067: nieoczekiwane tokeny występujące po dyrektywie preprocesora - oczekiwano nowego wiersza
+e:\polsl\ja\projektja\app\app.cpp(58): warning C4018: ">": niezgodność typu ze znakiem/bez znaku
+e:\polsl\ja\projektja\app\app.cpp(65): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
   Trwa generowanie kodu
-  All 11 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  1 of 225 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
   Zakończono generowanie kodu
   App.vcxproj -> E:\polsl\JA\ProjektJA\x64\Release\App.exe

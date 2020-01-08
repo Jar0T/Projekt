@@ -1,43 +1,136 @@
-#include <iostream>;
+#include <iostream>
+#include <thread>
+#include <vector>
+#include <string>
+#include "DllCpp.h"
 
-int main() {
-	FILE* f;
-	fopen_s(&f, "01.bmp", "rb");
+extern "C" void _stdcall MyProc(unsigned char* data, unsigned char *helper, unsigned int offset, size_t size, unsigned int width);
 
-	if (f == NULL)
-		throw "Argument Exception";
-
+struct BMP {
 	unsigned char info[54];
-	fread(info, sizeof(unsigned char), 54, f); // read the 54-byte header
+	uint32_t width;
+	uint32_t height;
+	uint32_t row_padded;
 
-	// extract image height and width from header
-	int width = *(int*)&info[18];
-	int height = *(int*)&info[22];
+	uint8_t *data;
 
-	std::cout << std::endl;
-	std::cout << "  Name: " << "01" << std::endl;
-	std::cout << " Width: " << width << std::endl;
-	std::cout << "Height: " << height << std::endl;
+	BMP(const char *fname) {
+		read(fname);
+	}
 
-	int row_padded = (width * 3 + 3) & (~3);
-	unsigned char* data = new unsigned char[row_padded];
-	unsigned char tmp;
+	void read(const char *fname) {
+		FILE* f;
+		fopen_s(&f, fname, "rb");
 
-	for (int i = 0; i < height; i++)
-	{
-		fread(data, sizeof(unsigned char), row_padded, f);
-		for (int j = 0; j < width * 3; j += 3)
-		{
-			// Convert (B, G, R) to (R, G, B)
-			tmp = data[j];
-			data[j] = data[j + 2];
-			data[j + 2] = tmp;
+		fread(info, sizeof(unsigned char), 54, f);
 
-			std::cout << "R: " << (int)data[j] << " G: " << (int)data[j + 1] << " B: " << (int)data[j + 2] << std::endl;
+		width = *(uint32_t*)&info[18];
+		height = *(uint32_t*)&info[22];
+
+		row_padded = (width * 3 + 3) & (~3);
+
+		data = new uint8_t[row_padded * height];
+
+		fread(data, sizeof(uint8_t), row_padded * height, f);
+
+		fclose(f);
+	}
+
+	void saveAs(const char* fname) {
+		FILE* f;
+
+		fopen_s(&f, fname, "wb");
+
+		fwrite(info, sizeof(unsigned char), 54, f);
+
+		fwrite(data, sizeof(uint8_t), row_padded * height, f);
+
+		fclose(f);
+	}
+};
+
+int main(int argc, char **argv) {
+	BMP bmp(argv[1]);
+	//BMP bmp("04.bmp");
+	std::vector<std::thread> threads;
+	int maxThreads = 64;
+	int numberOfThreads = (argc > 4 ? (std::stoi(argv[4]) > maxThreads ? maxThreads : std::stoi(argv[4])) : maxThreads);
+	if (numberOfThreads > bmp.height - 2)
+		numberOfThreads = bmp.height - 2;
+	std::cout << "Number of threads: " << numberOfThreads << std::endl;
+	std::cout << "Pixels in image: " << bmp.row_padded * bmp.height << std::endl;
+
+	unsigned char* helper = new unsigned char[bmp.row_padded * bmp.height];
+	
+	for (int i = 0; i < bmp.row_padded * bmp.height; i++) {
+		helper[i] = bmp.data[i];
+	}
+	
+	if (strcmp(argv[3], "-c") == 0) {
+		//C++ library
+		for (int i = 0; i < numberOfThreads - 1; i++) {
+			threads.push_back(
+				std::thread(
+					lap,
+					bmp.data,
+					helper,
+					(i == 0 ?
+						bmp.row_padded :
+						bmp.row_padded * ((bmp.height - 2) / (numberOfThreads - 1)) * i),
+					bmp.row_padded * ((bmp.height - 2) / (numberOfThreads - 1)),
+					bmp.row_padded
+				)
+			);
+		}
+		threads.push_back(
+			std::thread(
+				lap,
+				bmp.data,
+				helper,
+				bmp.row_padded * ((bmp.height - 2) / (numberOfThreads)) * (numberOfThreads - 1),
+				bmp.row_padded * (bmp.height - 2) - bmp.row_padded * ((bmp.height - 2) / (numberOfThreads)) * (numberOfThreads - 1),
+				bmp.row_padded
+			)
+		);
+		for (int i = 0; i < threads.size(); i++) {
+			threads[i].join();
 		}
 	}
 
-	fclose(f);
+	if (strcmp(argv[3], "-a") == 0) {
+		//ASM library
+		for (int i = 0; i < numberOfThreads - 1; i++) {
+			threads.push_back(
+				std::thread(
+					MyProc,
+					bmp.data,
+					helper,
+					(i == 0 ?
+						bmp.row_padded :
+						bmp.row_padded * ((bmp.height - 2) / (numberOfThreads - 1)) * i),
+					bmp.row_padded * ((bmp.height - 2) / (numberOfThreads - 1)),
+					bmp.row_padded
+				)
+			);
+		}
+		threads.push_back(
+			std::thread(
+				MyProc,
+				bmp.data,
+				helper,
+				bmp.row_padded * ((bmp.height - 2) / (numberOfThreads)) * (numberOfThreads - 1),
+				bmp.row_padded * (bmp.height - 2) - bmp.row_padded * ((bmp.height - 2) / (numberOfThreads)) * (numberOfThreads - 1),
+				bmp.row_padded
+			)
+		);
+		for (int i = 0; i < threads.size(); i++) {
+			threads[i].join();
+		}
+	}
 
+	bmp.saveAs(argv[2]);
+	//bmp.saveAs("00.bmp");
+
+	system("pause");
 	return 0;
 }

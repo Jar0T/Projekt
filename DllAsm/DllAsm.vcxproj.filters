@@ -20,8 +20,8 @@
     </MASM>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
+    <None Include="DllAsm.def">
       <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,2 +1,5 @@
 ﻿  Assembling DllAsm.asm...
+LINK : warning LNK4075: zignorowano opcję „/INCREMENTAL” z powodu określenia opcji „/LTCG”
+     Trwa tworzenie biblioteki E:\polsl\JA\ProjektJA\x64\Debug\DllAsm.lib i obiektu E:\polsl\JA\ProjektJA\x64\Debug\DllAsm.exp
+  LINK : określono opcję /LTCG, lecz generowanie kodu nie było wymagane; usuń opcję /LTCG z wiersza polecenia konsolidatora w celu podwyższenia wydajności konsolidatora
   DllAsm.vcxproj -> E:\polsl\JA\ProjektJA\x64\Debug\DllAsm.dll

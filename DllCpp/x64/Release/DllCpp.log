@@ -1,7 +1,8 @@
-﻿  stdafx.cpp
-  DllCpp.cpp
-  dllmain.cpp
+﻿  DllCpp.cpp
+     Trwa tworzenie biblioteki E:\polsl\JA\ProjektJA\x64\Release\DllCpp.lib i obiektu E:\polsl\JA\ProjektJA\x64\Release\DllCpp.exp
   Trwa generowanie kodu
-  All 1 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  0 of 2 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Zakończono generowanie kodu
   DllCpp.vcxproj -> E:\polsl\JA\ProjektJA\x64\Release\DllCpp.dll

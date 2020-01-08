@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "App", "App\App.vcxproj", "{34028D28-B7BB-4444-9944-E0CD44FD0BB9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C5EE7C21-A1FD-4B48-990B-25147767B76B} = {C5EE7C21-A1FD-4B48-990B-25147767B76B}
+		{4DC6036A-403D-4345-8192-77F4CE4FF2E9} = {4DC6036A-403D-4345-8192-77F4CE4FF2E9}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DllAsm", "DllAsm\DllAsm.vcxproj", "{4DC6036A-403D-4345-8192-77F4CE4FF2E9}"
 EndProject
